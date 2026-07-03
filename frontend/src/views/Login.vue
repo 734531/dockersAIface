@@ -1,0 +1,6 @@
+<template><div class="page login-wrap"><div class="glass login-card"><div class="brand">NBA-Lab</div><p class="sub">Face Recognition Control Center</p><div class="field"><label>账号</label><input class="input" v-model.trim="form.username" autocomplete="off" placeholder="请输入账号" @keyup.enter="submit"></div><div class="field"><label>密码</label><input class="input" v-model="form.password" type="password" autocomplete="new-password" placeholder="请输入密码" @keyup.enter="submit"></div><button class="btn" style="width:100%;margin-top:12px" @click="submit">进入系统</button><p class="hint">默认测试账号：superadmin / 123456。超级管理员和管理员登录后会进入不同首页。</p><p class="err" v-if="err">{{err}}</p></div></div></template>
+<script setup>
+import { reactive, ref } from 'vue';import { useRouter } from 'vue-router';import http from '../api/http';
+const router=useRouter();const err=ref('');const form=reactive({username:'',password:''});
+async function submit(){err.value='';if(!form.username||!form.password){err.value='请输入账号和密码';return}try{localStorage.removeItem('token');localStorage.removeItem('user');const res=await http.post('/auth/login',form);localStorage.setItem('token',res.access_token);localStorage.setItem('user',JSON.stringify(res.user));router.push(res.user.role==='super_admin'?'/super':'/admin')}catch(e){err.value=e.message}}
+</script>
