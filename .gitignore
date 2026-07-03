@@ -1,0 +1,11 @@
+.env
+mysql_data/
+backend/faces/
+backend/models/*.onnx
+backend/app/__pycache__/
+**/__pycache__/
+*.pyc
+frontend/node_modules/
+frontend/dist/
+.idea/
+.DS_Store
